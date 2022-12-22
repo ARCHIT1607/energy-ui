@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  list-style: none;
+}
+#coupon {
+  height: 100px;
+  width: 100%;
+  background-color: #eb9f37;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#jumbotron {
+  height: 400px;
+  width: 100%;
+  padding-top: 5%;
+  text-align: center;
+  background-image: url("../banner.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#feature {
+  background-color: #eff0f0;
+  height: 100%;
+  text-align: center;
+  padding-top: 4%;
+}
+#customer-highlights, #admin-highlights {
+  padding: 5%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  margin-bottom: 5%;
+}
+
+#cusFeature, #adminFeature{
+    padding: 5%;
+}
+
+#features {
+  background-color: #fff;
+  height: 400px;
+}
+
+#hightlight-title {
+  padding-bottom: 20px;
+}
