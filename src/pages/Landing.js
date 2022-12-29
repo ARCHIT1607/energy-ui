@@ -4,7 +4,9 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import About from "../components/About";
 import Axios from "axios";
-import {Buffer} from 'buffer'
+import { Buffer } from "buffer";
+import { useRef } from "react";
+import QrScanner from "qr-scanner";
 
 function Landing() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ function Landing() {
 
   const [evc, setEVC] = useState(0);
   let balance = 0;
-  let cred = localStorage.getItem("user")
+  let cred = localStorage.getItem("user");
   const routeBill = () => {
     navigate({
       pathname: "/cusBill",
@@ -49,8 +51,7 @@ function Landing() {
       meterReading,
       {
         headers: {
-          Authorization:
-            "Basic " + cred,
+          Authorization: "Basic " + cred,
         },
       }
     )
@@ -73,13 +74,11 @@ function Landing() {
 
   const handleTopUp = async () => {
     //Prevent page reload
-    await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc,null
-    ,{
+    await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc, null, {
       headers: {
-        Authorization: "Basic " + cred
+        Authorization: "Basic " + cred,
       },
-    }
-    )
+    })
       .then((response) => {
         console.log(response.data);
         console.log("Top up successfully");
@@ -108,7 +107,7 @@ function Landing() {
       .then((response) => {
         balance = response.data;
         console.log("balance inside success", balance);
-        window.balance = balance
+        window.balance = balance;
       })
       .catch((error) => {
         if (error.response) {
@@ -126,8 +125,26 @@ function Landing() {
     if (localStorage.getItem("user") == null) {
       navigate("/");
     }
-
   }, []);
+
+  const BillPage = () => {
+    navigate("/cusBill");
+  };
+
+  const [file, setFile] = useState(null);
+  const fileRef = useRef();
+  const [data, setData] = useState(null);
+
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+
+  const handleChange = async (e) => {
+    const file = e.target.files[0];
+    setFile(file);
+    const result = await QrScanner.scanImage(file);
+    setEVC(result);
+  };
 
   return (
     <>
@@ -162,7 +179,7 @@ function Landing() {
                       A customer can view and pay the latest unpaid bill with
                       energy credit*.
                     </p>
-                    <Button variant="primary" onClick={routeBill}>
+                    <Button variant="primary" onClick={BillPage}>
                       View/Pay Bill
                     </Button>
                   </div>
@@ -177,6 +194,7 @@ function Landing() {
                           minLength={8}
                           maxLength={8}
                           placeholder="Enter valid EVC"
+                          value={evc}
                           onChange={(e) => {
                             setEVC(e.target.value);
                           }}
@@ -192,6 +210,16 @@ function Landing() {
                         </Button>
                       </Form.Group>
                     </Form>
+                    <Button variant="primary" onClick={handleClick}>
+                      Scan Qr Code
+                    </Button>
+                    <input
+                      type="file"
+                      ref={fileRef}
+                      onChange={handleChange}
+                      accept=".png, .jpg, .jpeg"
+                      style={{display:'none'}}
+                    />
                   </div>
                 </div>
               </div>

@@ -13,9 +13,9 @@ function CustomNavbar() {
         <Container>
           <Navbar.Brand href="#home">Energy</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="landing">Home</Nav.Link>
+            <Nav.Link href="/landing">Home</Nav.Link>
             <Nav.Link href="#hightlights">Highlight</Nav.Link>
-            <Nav.Link href="cusBill">View/Pay</Nav.Link>
+            <Nav.Link href="/cusBill">View/Pay</Nav.Link>
           </Nav>
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
