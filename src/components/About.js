@@ -36,7 +36,9 @@ function About() {
             <img src={highlight3} alt="" height={300} width={300} />
           </div>
           <div className="col-lg-6">
-            <p>A customer can top up the credit with a valid EVC*.</p>
+            <p>A customer can top up the credit with a valid EVC*.
+                One EVC can be used once only and it cannot be reused again.
+            </p>
           </div>
         </div>
       </div>

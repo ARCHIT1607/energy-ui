@@ -1,29 +1,93 @@
-
 import React, { useState } from "react";
 import "./Landing.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import About from "../components/About";
+import Axios from "axios";
 function Landing() {
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
-  const [show, setShow] = useState(false);
+  const [meterShow, setMeterShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  let isCustomer = searchParam.get("email")!=="gse@shangrila.gov.un";
+  const handleMeterClose = () => setMeterShow(false);
+  const handleMeterShow = () => setMeterShow(true);
+  let isCustomer = searchParam.get("email") !== "gse@shangrila.gov.un";
 
-  const routeBill = ()=>{
+  const [submissionDate, setSubmissionDate] = useState("");
+  const [eMeterReadingDay, setEMeterReadingDay] = useState(0);
+  const [eMeterReadingNight, setEMeterReadingNight] = useState(0);
+  const [gMeterReading, setGMeterReading] = useState(0);
+
+  const [evc, setEVC] = useState(0)
+  
+
+  const routeBill = () => {
     navigate({
-      pathname:"/cusBill"
+      pathname: "/cusBill",
     });
-  }
+  };
+
+  const handleSubmitMeterReading = async (e) => {
+    //Prevent page reload
+    console.log("in submit");
+    const meterReading = {
+      submissionDate,
+      eMeterReadingDay,
+      eMeterReadingNight,
+      gMeterReading,
+    };
+    e.preventDefault();
+    await Axios.post(
+      "http://localhost:8080/customer/submitMeterReading",
+      meterReading
+    )
+      .then((response) => {
+        console.log(response.data);
+        console.log("submitted meter reading successfully");
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
+
+  const handleTopUp = async (e) => {
+    //Prevent page reload
+    console.log("in Top up");
+    e.preventDefault();
+    await Axios.post(
+      "http://localhost:8080/customer/topUp?EVC="+
+      evc +"&email="+email
+    )
+      .then((response) => {
+        console.log(response.data);
+        console.log("Top up successfully");
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
   return (
     <>
       <div>
         <div id="coupon">
           <h4>
-            Information on the &#163; 250 Energy Bills Suport Scheme payment
+            Information on the &#163; 200 Energy Bills Suport Scheme payment
           </h4>
         </div>
         <div id="jumbotron">
@@ -41,7 +105,7 @@ function Landing() {
                     <p>Electricity meter reading - Day</p>
                     <p>Electricity meter reading - Night</p>
                     <p>Gas meter reading</p>
-                    <Button variant="primary" onClick={handleShow}>
+                    <Button variant="primary" onClick={handleMeterShow}>
                       Submit Meter Reading
                     </Button>
                   </div>
@@ -58,6 +122,29 @@ function Landing() {
                   <div className="col-lg-4">
                     <h3 id="hightlight-title">Top up</h3>
                     <p>A customer can top up the credit with a valid EVC*.</p>
+                    <Form>
+                      <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Electricity</Form.Label>
+                        <Form.Control
+                          type="text"
+                          minLength={8}
+                          maxLength={8}
+                          placeholder="Enter valid EVC"
+                          onChange={(e) => {
+                            setEVC(e.target.value);
+                          }}
+                        />
+                        <br />
+                        <Button
+                          variant="primary"
+                          onSubmit={() => {
+                            handleTopUp()
+                          }}
+                        >
+                          credit
+                        </Button>
+                      </Form.Group>
+                    </Form>
                   </div>
                 </div>
               </div>
@@ -86,15 +173,11 @@ function Landing() {
                         />
                       </Form.Group>
                     </Form>
-                    <Button variant="primary" onClick={handleShow}>
-                      Submit Price
-                    </Button>
+                    <Button variant="primary">Submit Price</Button>
                   </div>
                   <div className="col-lg-4">
                     <h3 id="hightlight-title">Access meter reading</h3>
-                    <Button variant="primary" onClick={handleShow}>
-                      Access Reading
-                    </Button>
+                    <Button variant="primary">Access Reading</Button>
                   </div>
                   <div className="col-lg-4">
                     <h3 id="hightlight-title">Admin Dashboard</h3>
@@ -109,8 +192,8 @@ function Landing() {
       <About></About>
 
       <Modal
-        show={show}
-        onHide={handleClose}
+        show={meterShow}
+        onHide={handleMeterClose}
         backdrop="static"
         keyboard={false}
       >
@@ -121,7 +204,13 @@ function Landing() {
           <Form>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Submission Date</Form.Label>
-              <Form.Control type="date" placeholder="Enter Submission date" />
+              <Form.Control
+                type="date"
+                placeholder="Enter Submission date"
+                onChange={(e) => {
+                  setSubmissionDate(e.target.value);
+                }}
+              />
               <Form.Text className="text-muted">
                 Submission date (e.g. 2022-11-05, default value: today)
               </Form.Text>
@@ -129,22 +218,44 @@ function Landing() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Electricity meter reading - Day</Form.Label>
-              <Form.Control type="number" placeholder="kWh" />
+              <Form.Control
+                type="number"
+                placeholder="kWh"
+                onChange={(e) => {
+                  setEMeterReadingDay(e.target.value);
+                }}
+              />
               <Form.Text className="text-muted">
                 Electricity meter reading - Day (e.g. 100 kWh)
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Electricity meter reading - Night</Form.Label>
-              <Form.Control type="number" placeholder="kWh" />
+              <Form.Control
+                type="number"
+                placeholder="kWh"
+                onChange={(e) => {
+                  setEMeterReadingNight(e.target.value);
+                }}
+              />
               <Form.Text className="text-muted">Gas meter reading</Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Gas meter reading (e.g. 800 kWh 1 )</Form.Label>
-              <Form.Control type="number" placeholder="kWh" />
+              <Form.Control
+                type="number"
+                placeholder="kWh"
+                onChange={(e) => {
+                  setGMeterReading(e.target.value);
+                }}
+              />
               <Form.Text className="text-muted">(e.g. 800 kWh)</Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleSubmitMeterReading}
+            >
               Submit Reading
             </Button>
           </Form>

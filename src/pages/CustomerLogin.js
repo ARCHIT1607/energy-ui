@@ -1,11 +1,17 @@
+import  Axios  from "axios";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
-
+import "./CustomerLogin.css";
 function CustomerLogin(props) {
   const navigate = useNavigate();
 
   let [authMode, setAuthMode] = useState("signin");
+  const [customer, setCustomer] = useState([]);
+  const [propertyType, setPropertyType] = useState(0);
+  const [address, setAddress] = useState("");
+  const [bedrooms, setBedrooms] = useState(0);
+  const [evc, setEvc] = useState(0);
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
@@ -14,39 +20,66 @@ function CustomerLogin(props) {
   // React States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  const handleSubmit = async (e) => {
-    //Prevent page reload
-    console.log("in submit")
-    e.preventDefault();
-    navigate({
-      pathname:"/landing",
-      search:createSearchParams({
-        email:email
-      }).toString()
-    });
-      // await Axios.post(
-      //   window.API_URL + "/login?userName=" + username + "&password=" + password
-      // )
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     console.log("inside success")
-      //     localStorage.setItem("email", email);
-      //     console.log("email in login " + email);
-      //   })
-      //   .catch((error) => {
-      //     if (error.response) {
-      //       console.log("inside error")
-      //       console.log(error.response.data);
-      //       console.log(error.response.status);
-      //       console.log(error.response.headers);
-      //       // alert(error.response.data);
-      //       toast(error.response.data);
-      //     } else {
-      //       console.log("Error", error.message);
-      //     }
-      //   });
 
+  const handleRegister = async (e) => {
+    //Prevent page reload
+    console.log("in register");
+    const customer = { email, password, propertyType, address, bedrooms, evc };
+    e.preventDefault();
+    await Axios.post("http://localhost:8080/auth/register", customer)
+      .then((response) => {
+        console.log(response.data);
+        console.log("inside success");
+        localStorage.setItem("email", email);
+        console.log("email in login " + email);
+        navigate({
+          pathname: "/landing",
+          search: createSearchParams({
+            email: email,
+          }).toString(),
+        });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
+
+  const handleLogin = async (e) => {
+    //Prevent page reload
+    console.log("in login");
+    e.preventDefault();
+    await Axios.post("http://localhost:8080/auth/login?email=" + email + "&password=" + password)
+      .then((response) => {
+        console.log(response.data);
+        console.log("inside success");
+        localStorage.setItem("email", email);
+        console.log("email in login " + email);
+        navigate({
+          pathname: "/landing",
+          search: createSearchParams({
+            email: email,
+          }).toString(),
+        });
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
   };
 
   if (authMode === "signin") {
@@ -68,8 +101,8 @@ function CustomerLogin(props) {
                 className="form-control mt-1"
                 placeholder="Enter email"
                 onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+                  setEmail(e.target.value);
+                }}
               />
             </div>
             <div className="form-group mt-3">
@@ -84,7 +117,7 @@ function CustomerLogin(props) {
               />
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+              <button type="submit" className="btn btn-primary" onClick={handleLogin}>
                 Submit
               </button>
             </div>
@@ -114,6 +147,10 @@ function CustomerLogin(props) {
               type="email"
               className="form-control mt-1"
               placeholder="Email Address"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -122,6 +159,10 @@ function CustomerLogin(props) {
               type="password"
               className="form-control mt-1"
               placeholder="Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -130,11 +171,18 @@ function CustomerLogin(props) {
               type="text"
               className="form-control mt-1"
               placeholder="Address"
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+              required
             />
           </div>
           <div className="form-group mt-3">
             <label>Property type</label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              aria-label="Default select example"
+              onChange={(e) => setPropertyType(e.target.value)}
+            >
               <option>Property Type</option>
               <option value="detached">detached</option>
               <option value="semi-detached">semi-detached</option>
@@ -151,6 +199,10 @@ function CustomerLogin(props) {
               type="number"
               className="form-control mt-1"
               placeholder="e.g 1"
+              onChange={(e) => {
+                setBedrooms(e.target.value);
+              }}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -161,11 +213,19 @@ function CustomerLogin(props) {
               maxLength={8}
               className="form-control mt-1"
               placeholder="e.g 12345678"
+              onChange={(e) => {
+                setEvc(e.target.value);
+              }}
+              required
             />
           </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
-              Submit
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleRegister}
+            >
+              Register
             </button>
           </div>
           <p className="text-center mt-2">
