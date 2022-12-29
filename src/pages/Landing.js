@@ -15,14 +15,14 @@ function Landing() {
 
   const handleMeterClose = () => setMeterShow(false);
   const handleMeterShow = () => setMeterShow(true);
-  let isCustomer = searchParam.get("email") !== "gse@shangrila.gov.un";
+  let isCustomer = localStorage.getItem("email") !== "gse@shangrila.gov.un";
 
   const [submissionDate, setSubmissionDate] = useState("");
   const [eMeterReadingDay, setEMeterReadingDay] = useState(0);
   const [eMeterReadingNight, setEMeterReadingNight] = useState(0);
   const [gMeterReading, setGMeterReading] = useState(0);
 
-  const [evc, setEVC] = useState(0);
+  const [evc, setEVC] = useState("");
   let balance = 0;
   let cred = localStorage.getItem("user");
   const routeBill = () => {
