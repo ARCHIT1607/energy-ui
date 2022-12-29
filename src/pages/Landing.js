@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Landing.css";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import About from "../components/About";
 import Axios from "axios";
+import {Buffer} from 'buffer'
+
 function Landing() {
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
@@ -18,9 +20,9 @@ function Landing() {
   const [eMeterReadingNight, setEMeterReadingNight] = useState(0);
   const [gMeterReading, setGMeterReading] = useState(0);
 
-  const [evc, setEVC] = useState(0)
-  
-
+  const [evc, setEVC] = useState(0);
+  let balance = 0;
+  let cred = localStorage.getItem("user")
   const routeBill = () => {
     navigate({
       pathname: "/cusBill",
@@ -37,9 +39,20 @@ function Landing() {
       gMeterReading,
     };
     e.preventDefault();
+    // deleted later in code clean up
+    // let x = Buffer.from('test1@gmail.com:test').toString('Base64')
+    // console.log("test1@gmail.com "+ Buffer.from('test1@gmail.com:test').toString('Base64'))
+    // console.log("test1@gmail.com "+ Buffer.from(x,'Base64').toString())
+    // console.log("test6@gmail.com "+ Buffer.from('test6@gmail.com:test').toString('Base64'))
     await Axios.post(
       "http://localhost:8080/customer/submitMeterReading",
-      meterReading
+      meterReading,
+      {
+        headers: {
+          Authorization:
+            "Basic " + cred,
+        },
+      }
     )
       .then((response) => {
         console.log(response.data);
@@ -58,13 +71,14 @@ function Landing() {
       });
   };
 
-  const handleTopUp = async (e) => {
+  const handleTopUp = async () => {
     //Prevent page reload
-    console.log("in Top up");
-    e.preventDefault();
-    await Axios.post(
-      "http://localhost:8080/customer/topUp?EVC="+
-      evc +"&email="+email
+    await Axios.post("http://localhost:8080/customer/topUp?EVC=" + evc,null
+    ,{
+      headers: {
+        Authorization: "Basic " + cred
+      },
+    }
     )
       .then((response) => {
         console.log(response.data);
@@ -82,6 +96,39 @@ function Landing() {
         }
       });
   };
+
+  const getBalance = async () => {
+    //Prevent page reload
+    console.log("get Balance");
+    await Axios.get("http://localhost:8080/customer/getBalance", {
+      headers: {
+        Authorization: "Basic " + cred,
+      },
+    })
+      .then((response) => {
+        balance = response.data;
+        console.log("balance inside success", balance);
+        window.balance = balance
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log("inside error");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+          alert(error.response.data);
+        } else {
+          console.log("Error", error.message);
+        }
+      });
+  };
+  useEffect(() => {
+    if (localStorage.getItem("user") == null) {
+      navigate("/");
+    }
+
+  }, []);
+
   return (
     <>
       <div>
@@ -137,8 +184,8 @@ function Landing() {
                         <br />
                         <Button
                           variant="primary"
-                          onSubmit={() => {
-                            handleTopUp()
+                          onClick={() => {
+                            handleTopUp();
                           }}
                         >
                           credit

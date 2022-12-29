@@ -1,8 +1,10 @@
 import  Axios  from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import "./CustomerLogin.css";
+import {Buffer} from 'buffer'
+
 function CustomerLogin(props) {
   const navigate = useNavigate();
 
@@ -24,20 +26,17 @@ function CustomerLogin(props) {
   const handleRegister = async (e) => {
     //Prevent page reload
     console.log("in register");
-    const customer = { email, password, propertyType, address, bedrooms, evc };
+    const customer = { email, password, propertyType, address, bedrooms };
     e.preventDefault();
-    await Axios.post("http://localhost:8080/auth/register", customer)
+    await Axios.post("http://localhost:8080/auth/register/"+evc, customer)
       .then((response) => {
         console.log(response.data);
+        // let pwd = response.data.password;
+        // console.log("response ",email,pwd)
         console.log("inside success");
-        localStorage.setItem("email", email);
+        localStorage.setItem("user", Buffer.from(email+":"+password).toString('Base64'));
         console.log("email in login " + email);
-        navigate({
-          pathname: "/landing",
-          search: createSearchParams({
-            email: email,
-          }).toString(),
-        });
+        navigate("/landing");
       })
       .catch((error) => {
         if (error.response) {
@@ -62,12 +61,8 @@ function CustomerLogin(props) {
         console.log("inside success");
         localStorage.setItem("email", email);
         console.log("email in login " + email);
-        navigate({
-          pathname: "/landing",
-          search: createSearchParams({
-            email: email,
-          }).toString(),
-        });
+        localStorage.setItem("user", Buffer.from(email+":"+password).toString('Base64'));
+        navigate("/landing");
       })
       .catch((error) => {
         if (error.response) {
@@ -81,6 +76,13 @@ function CustomerLogin(props) {
         }
       });
   };
+
+  useEffect(() => {
+    if(localStorage.getItem("user")!=null){
+      navigate('/landing')
+    }
+  }, [])
+  
 
   if (authMode === "signin") {
     return (

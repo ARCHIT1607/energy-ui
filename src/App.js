@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import CustomerMeter from "./pages/CustomerMeter";
 import CusBill from "./pages/CusBill";
 import CustomNavbar from "./components/CustomNavbar";
+
 function App() {
   return (
     <>
@@ -14,7 +15,7 @@ function App() {
           <Route exact path="/" element={<CustomerLogin />} />
           <Route exact path="/landing" element={<Landing />} />
           <Route exact path="/cusMeter" element={<CustomerMeter />} />
-          <Route exact path="/cusBill" element={<CusBill />} />
+          
         </Routes>
       </div>
     </>
