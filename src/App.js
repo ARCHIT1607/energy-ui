@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import CustomerMeter from "./pages/CustomerMeter";
 import CusBill from "./pages/CusBill";
 import CustomNavbar from "./components/CustomNavbar";
+import AdminViewMeterReading from "./pages/AdminViewMeterReading";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route exact path="/landing" element={<Landing />} />
           <Route exact path="/cusMeter" element={<CustomerMeter />} />
           <Route exact path="/cusBill" element={<CusBill />} />
-          
+          <Route exact path="/adminView" element={<AdminViewMeterReading />} />
         </Routes>
       </div>
     </>

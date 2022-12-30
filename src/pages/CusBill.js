@@ -86,7 +86,7 @@ function CusBill() {
     <>
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
-          <Accordion.Header>period 2022-11-20 to 2022-12-20</Accordion.Header>
+          <Accordion.Header>period {meterReadings.billDate}</Accordion.Header>
           <Accordion.Body>
             <Table striped>
               <thead>

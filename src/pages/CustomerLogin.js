@@ -4,6 +4,7 @@ import { Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import "./CustomerLogin.css";
 import {Buffer} from 'buffer'
+import { ToastContainer, toast } from "react-toastify";
 
 function CustomerLogin(props) {
   const navigate = useNavigate();
@@ -62,6 +63,8 @@ function CustomerLogin(props) {
         localStorage.setItem("email", email);
         console.log("email in login " + email);
         localStorage.setItem("user", Buffer.from(email+":"+password).toString('Base64'));
+        toast("Logged in Successfully");
+        window.location.reload(false);
         navigate("/landing");
       })
       .catch((error) => {
@@ -133,6 +136,8 @@ function CustomerLogin(props) {
   }
 
   return (
+    <>
+    <ToastContainer></ToastContainer>
     <div className="Auth-form-container">
       <form className="Auth-form">
         <div className="Auth-form-content">
@@ -236,6 +241,7 @@ function CustomerLogin(props) {
         </div>
       </form>
     </div>
+    </>
   );
 }
 

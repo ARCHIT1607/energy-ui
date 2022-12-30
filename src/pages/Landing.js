@@ -252,7 +252,7 @@ function Landing() {
                   </div>
                   <div className="col-lg-4">
                     <h3 id="hightlight-title">Access meter reading</h3>
-                    <Button variant="primary">Access Reading</Button>
+                    <Button variant="primary" onClick={navigate('/adminView')}>Access Reading</Button>
                   </div>
                   <div className="col-lg-4">
                     <h3 id="hightlight-title">Admin Dashboard</h3>

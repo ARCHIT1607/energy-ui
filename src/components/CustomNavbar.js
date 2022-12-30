@@ -7,6 +7,19 @@ import Axios from "axios";
 
 function CustomNavbar() {
 
+  const user = localStorage.getItem("user");
+
+  const handleLogout = ()=>{
+    localStorage.clear();
+    window.location.reload(false);
+  }
+
+  // useEffect(() => {
+  //   user = localStorage.getItem("user")
+  //   console.log("checck user",user)
+  // }, [user])
+  
+
   return (
     <>
       <Navbar bg="dark" variant="dark" sticky="top">
@@ -19,6 +32,7 @@ function CustomNavbar() {
           </Nav>
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
+          {user!=null?<a href="#" onClick={handleLogout}>Logout</a> : ""}
           </Navbar.Text>
         </Navbar.Collapse>
         </Container>
