@@ -1,0 +1,14 @@
+.outer{
+    height: 400px;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+
+   .outer{
+    position: relative;
+    bottom: 12rem;
+    left: 1.5rem;
+   }
+}

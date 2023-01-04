@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Landing.css";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import About from "../components/About";
 import Axios from "axios";
 import { Buffer } from "buffer";
 import { useRef } from "react";
 import QrScanner from "qr-scanner";
+// import QrScan from 'qr-scanner'
+import CustomNavbar from "../components/CustomNavbar";
 
 function Landing() {
   const navigate = useNavigate();
@@ -125,6 +127,11 @@ function Landing() {
     if (localStorage.getItem("user") == null) {
       navigate("/");
     }
+
+    console.log("isCustomer ", isCustomer);
+    if (!isCustomer) {
+      navigate("/adminDashboard");
+    }
   }, []);
 
   const BillPage = () => {
@@ -148,7 +155,8 @@ function Landing() {
 
   return (
     <>
-      <div>
+      <CustomNavbar></CustomNavbar>
+      <div id="outer-section">
         <div id="coupon">
           <h4>
             Information on the &#163; 200 Energy Bills Suport Scheme payment
@@ -159,112 +167,95 @@ function Landing() {
           <h1>Ways to save energy over winter</h1>
         </div>
         <div id="feature">
-          <h2>Features</h2>
-          {isCustomer === true ? (
-            <div id="customer-highlights">
-              <div className="container" id="features">
-                <div className="row" id="cusFeature">
-                  <div className="col-lg-4">
-                    <h3 id="hightlight-title">Submit new meter reading</h3>
-                    <p>Electricity meter reading - Day</p>
-                    <p>Electricity meter reading - Night</p>
-                    <p>Gas meter reading</p>
-                    <Button variant="primary" onClick={handleMeterShow}>
-                      Submit Meter Reading
-                    </Button>
-                  </div>
-                  <div className="col-lg-4">
-                    <h3 id="hightlight-title">View & Pay latest unpaid bill</h3>
-                    <p>
-                      A customer can view and pay the latest unpaid bill with
-                      energy credit*.
-                    </p>
-                    <Button variant="primary" onClick={BillPage}>
-                      View/Pay Bill
-                    </Button>
-                  </div>
-                  <div className="col-lg-4">
-                    <h3 id="hightlight-title">Top up</h3>
-                    <p>A customer can top up the credit with a valid EVC*.</p>
-                    <Form>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Electricity</Form.Label>
-                        <Form.Control
-                          type="text"
-                          minLength={8}
-                          maxLength={8}
-                          placeholder="Enter valid EVC"
-                          value={evc}
-                          onChange={(e) => {
-                            setEVC(e.target.value);
-                          }}
-                        />
-                        <br />
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            handleTopUp();
-                          }}
-                        >
-                          credit
-                        </Button>
-                      </Form.Group>
-                    </Form>
-                    <Button variant="primary" onClick={handleClick}>
-                      Scan Qr Code
-                    </Button>
-                    <input
-                      type="file"
-                      ref={fileRef}
-                      onChange={handleChange}
-                      accept=".png, .jpg, .jpeg"
-                      style={{display:'none'}}
-                    />
-                  </div>
-                </div>
+          <h2 style={{ textAlign: "center" }}>Features</h2>
+          <div className="container" id="features">
+            <div className="row" id="cusFeature">
+              <div className="col-lg-4" id="cusFeatureCol">
+                <Card id="card" >
+                  <Card.Body>
+                    <Card.Title>
+                      <h2>Submit new meter reading</h2>
+                    </Card.Title>
+                    <Card.Text>
+                      <p id="meterReadingCard">
+                        Electricity meter reading - Day <br></br>Electricity
+                        meter reading - Night <br></br>Gas meter reading
+                      </p>
+                      <Button variant="primary" onClick={handleMeterShow}>
+                        Submit Meter Reading
+                      </Button>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col-lg-4" id="cusFeatureCol">
+                <Card id="card">
+                  <Card.Body>
+                    <Card.Title>
+                      <h2>View & Pay latest unpaid bill</h2>
+                    </Card.Title>
+                    <Card.Text>
+                      <p>
+                        A customer can view and pay the latest unpaid bill with
+                        energy credit*.
+                      </p>
+                      <Button variant="primary" onClick={BillPage}>
+                        View/Pay Bill
+                      </Button>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col-lg-4" id="cusFeatureCol">
+                <Card id="card">
+                  <Card.Body>
+                    <Card.Title>
+                      <h2>Top Up</h2>
+                    </Card.Title>
+                    <Card.Text>
+                      <p>A customer can top up the credit with a valid EVC*.</p>
+                      <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                          <Form.Control
+                            type="text"
+                            minLength={8}
+                            maxLength={8}
+                            placeholder="Enter valid EVC"
+                            value={evc}
+                            onChange={(e) => {
+                              setEVC(e.target.value);
+                            }}
+                          />
+                          <br />
+                          <Button
+                            variant="primary"
+                            onClick={() => {
+                              handleTopUp();
+                            }}
+                            style={{ marginRight: "1rem" }}
+                          >
+                            credit
+                          </Button>
+                          <Button variant="primary" onClick={handleClick}>
+                            Upload Qr Code
+                          </Button>
+                          <input
+                            type="file"
+                            ref={fileRef}
+                            onChange={handleChange}
+                            accept=".png, .jpg, .jpeg"
+                            style={{ display: "none" }}
+                          />
+                        </Form.Group>
+                      </Form>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               </div>
             </div>
-          ) : (
-            <div id="admin-highlights">
-              <div className="container" id="features">
-                <div className="row" id="adminFeature">
-                  <div className="col-lg-4">
-                    <h4 id="hightlight-title">
-                      Set price kWh for electricity & gas
-                    </h4>
-                    <Form>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Electricity</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Enter price in kWh"
-                        />
-                      </Form.Group>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Gas</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Enter price in kWh"
-                        />
-                      </Form.Group>
-                    </Form>
-                    <Button variant="primary">Submit Price</Button>
-                  </div>
-                  <div className="col-lg-4">
-                    <h3 id="hightlight-title">Access meter reading</h3>
-                    <Button variant="primary" onClick={navigate('/adminView')}>Access Reading</Button>
-                  </div>
-                  <div className="col-lg-4">
-                    <h3 id="hightlight-title">Admin Dashboard</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
-
-      <About></About>
 
       <Modal
         show={meterShow}

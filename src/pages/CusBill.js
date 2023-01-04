@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import Accordion from "react-bootstrap/Accordion";
+import "./CusBill.css"
 import Axios from "axios";
+import CustomNavbar from "../components/CustomNavbar";
 
 function CusBill() {
   const [meterReadings, setMeterReadings] = useState([]);
@@ -84,16 +85,13 @@ function CusBill() {
 
   return (
     <>
-      <Accordion defaultActiveKey="0">
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>period {meterReadings.billDate}</Accordion.Header>
-          <Accordion.Body>
+    <CustomNavbar></CustomNavbar>
             <Table striped>
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Day Electricity Usage</th>
-                  <th>Night Electricity Usage</th>
+                  <th>Electricity Usage (D)</th>
+                  <th>Electricity Usage (N)</th>
                   <th>Gas Usage</th>
                   <th>Amount</th>
                   <th>Action</th>
@@ -115,6 +113,7 @@ function CusBill() {
                             onClick={() => {
                               payBill(mReading.id,mReading.due);
                             }}
+                            id="payBtn"
                           >
                             Pay
                           </Button>
@@ -124,9 +123,6 @@ function CusBill() {
                   })}
               </tbody>
             </Table>
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
     </>
   );
 }

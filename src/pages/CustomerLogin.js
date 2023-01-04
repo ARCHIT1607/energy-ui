@@ -1,10 +1,14 @@
-import  Axios  from "axios";
+import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import "./CustomerLogin.css";
-import {Buffer} from 'buffer'
+import { Buffer } from "buffer";
 import { ToastContainer, toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
 
 function CustomerLogin(props) {
   const navigate = useNavigate();
@@ -29,13 +33,17 @@ function CustomerLogin(props) {
     console.log("in register");
     const customer = { email, password, propertyType, address, bedrooms };
     e.preventDefault();
-    await Axios.post("http://localhost:8080/auth/register/"+evc, customer)
+    await Axios.post("http://localhost:8080/auth/register/" + evc, customer)
       .then((response) => {
         console.log(response.data);
         // let pwd = response.data.password;
         // console.log("response ",email,pwd)
         console.log("inside success");
-        localStorage.setItem("user", Buffer.from(email+":"+password).toString('Base64'));
+        localStorage.setItem("email", email);
+        localStorage.setItem(
+          "user",
+          Buffer.from(email + ":" + password).toString("Base64")
+        );
         console.log("email in login " + email);
         navigate("/landing");
       })
@@ -56,13 +64,21 @@ function CustomerLogin(props) {
     //Prevent page reload
     console.log("in login");
     e.preventDefault();
-    await Axios.post("http://localhost:8080/auth/login?email=" + email + "&password=" + password)
+    await Axios.post(
+      "http://localhost:8080/auth/login?email=" +
+        email +
+        "&password=" +
+        password
+    )
       .then((response) => {
         console.log(response.data);
         console.log("inside success");
         localStorage.setItem("email", email);
         console.log("email in login " + email);
-        localStorage.setItem("user", Buffer.from(email+":"+password).toString('Base64'));
+        localStorage.setItem(
+          "user",
+          Buffer.from(email + ":" + password).toString("Base64")
+        );
         toast("Logged in Successfully");
         window.location.reload(false);
         navigate("/landing");
@@ -81,12 +97,10 @@ function CustomerLogin(props) {
   };
 
   useEffect(() => {
-    if(localStorage.getItem("user")!=null){
-      navigate('/landing')
+    if (localStorage.getItem("user") != null) {
+      navigate("/landing");
     }
-  }, [])
-  
-
+  }, []);
   if (authMode === "signin") {
     return (
       <div className="Auth-form-container">
@@ -174,8 +188,8 @@ function CustomerLogin(props) {
           </div>
           <div className="form-group mt-3">
             <label>Address</label>
-            <input
-              type="text"
+            <textarea
+              type="textArea"
               className="form-control mt-1"
               placeholder="Address"
               onChange={(e) => {

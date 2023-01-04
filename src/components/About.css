@@ -1,5 +1,4 @@
 #hightlights{
-    text-align: center;
     height: 90vh;
 }
 #hightlights p{
@@ -7,3 +6,19 @@
     align-items: center;
     padding-top: 15%;
 }
+
+@media only screen and (max-width: 600px) {
+
+    img{
+        padding-left: 5rem;
+        position: relative;
+        bottom: 1rem;
+    }
+
+    #description{
+        height: 100%;
+        position: relative;
+        bottom: 5rem;
+    }
+  
+  }

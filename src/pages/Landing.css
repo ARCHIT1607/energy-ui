@@ -2,14 +2,11 @@
   margin: 0;
   padding: 0;
 }
-ul {
-  list-style: none;
-}
+
 #coupon {
   height: 100px;
   width: 100%;
   background-color: #eb9f37;
-  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +16,6 @@ ul {
   height: 400px;
   width: 100%;
   padding-top: 5%;
-  text-align: center;
   background-image: url("../banner.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -27,29 +23,41 @@ ul {
   flex-direction: column;
 }
 
-#feature {
-  background-color: #eff0f0;
-  height: 100%;
-  text-align: center;
-  padding-top: 4%;
-}
-#customer-highlights, #admin-highlights {
-  padding: 5%;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5%;
+#feature{
+  padding-top: 2rem;
 }
 
-#cusFeature, #adminFeature{
-    padding: 5%;
+#features{
+  padding-top: 3rem;
 }
 
-#features {
-  background-color: #fff;
-  height: 400px;
+#card{
+  width: 25rem;
+  height: 20rem;
+  background-color: black;
+  color: white;
 }
 
-#hightlight-title {
-  padding-bottom: 20px;
+p{
+  padding-top: 10px;
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+
+  #cusFeatureCol{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  #card{
+    width: 22rem;
+    height: 16rem;
+    margin-bottom: 3rem;
+  }
+
+  #aboutUs{
+    padding-top: 2rem;
+  }
+
 }

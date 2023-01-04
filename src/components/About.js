@@ -12,8 +12,8 @@ function About() {
           <div className="col-lg-6">
             <img src={highlight1} alt="" height={300} width={300} />
           </div>
-          <div className="col-lg-6">
-            <p>
+          <div className="col-lg-6" id="description">
+            <p >
               Meter readings are important because they enable us to provide you
               with an accurate bill based on the energy you have used. If you
               want to familiarise yourself with how to take a reading of your
@@ -24,8 +24,8 @@ function About() {
           <div className="col-lg-6">
             <img src={highlight2} alt="" height={300} width={300} />
           </div>
-          <div className="col-lg-6">
-            <p>
+          <div className="col-lg-6" id="description">
+          <p >
               You can view your bills for all your current and previous months.
               We also provide option to pay your bill online. A customer can
               view and pay the latest unpaid bill with energy credit*
@@ -35,8 +35,8 @@ function About() {
           <div className="col-lg-6">
             <img src={highlight3} alt="" height={300} width={300} />
           </div>
-          <div className="col-lg-6">
-            <p>A customer can top up the credit with a valid EVC*.
+          <div className="col-lg-6" id="description">
+          <p >A customer can top up the credit with a valid EVC*.
                 One EVC can be used once only and it cannot be reused again.
             </p>
           </div>
