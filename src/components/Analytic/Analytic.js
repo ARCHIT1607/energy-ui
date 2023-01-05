@@ -1,6 +1,7 @@
 import "./Analytic.css";
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from "chart.js";
+} from "chart.js/auto";
 
 import { Bar } from "react-chartjs-2";
 import { Col, Container, Row } from "react-bootstrap";
@@ -127,16 +128,29 @@ function Analytic() {
     ],
   });
 
+  const labels = ["January", "February", "March", "April", "May", "June"];
+
+const data1 = {
+  labels: labels,
+  datasets: [
+    {
+      label: "My First dataset",
+      backgroundColor: "rgb(255, 99, 132)",
+      borderColor: "rgb(255, 99, 132)",
+      data: [0, 10, 5, 2, 20, 30, 45],
+    },
+  ],
+};
   return (
     <div id="graph">
       <Container>
         <Row id="analyticRow">
-          <Col lg={6}>
+           <Col lg={6}>
             <Bar id="bar1" data={data} options={options} />
-          </Col>
-          <Col lg={6}>
-            <Bar id="bar2" data={data} options={options} />
-          </Col>
+          </Col> 
+           <Col lg={6}>
+            <Line id="bar2" data={data} />
+          </Col> 
         </Row>
       </Container>
     </div>

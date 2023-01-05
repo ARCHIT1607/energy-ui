@@ -9,16 +9,19 @@
 
 @media only screen and (max-width: 600px) {
 
+
     #analyticRow{
         height: 400px!important;
     }
     #graph{
-        width:200px;
+        width:300px;
          height:500px;
+         margin-top: 70px;
     }
 
-    #bar1{
-        width: 300px!important;
+    #bar1, #bar2{
+        width: 350px!important;
+        height: 300px!important;
         font-size: 5rem;
     }
 }
