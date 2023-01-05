@@ -8,6 +8,12 @@
     height: 40px;
 }
 
+#main{
+    display: none;
+}
+
+
+
 @media only screen and (max-width: 600px) {
 
     #navContainer, #coupon, #jumbotron{
@@ -18,6 +24,8 @@
         padding: 0;
         margin: 0;
         height: 10px;
+        width: 100px!important;
+        display: block;
     }
     #drawer{
         font-size: 1.5rem;
@@ -27,8 +35,9 @@
      position: absolute;
      top:10px;
     }
-    .openbtn{
-        background-color: white!important;
+
+    .navbar{
+        display: none!important;
     }
 
 

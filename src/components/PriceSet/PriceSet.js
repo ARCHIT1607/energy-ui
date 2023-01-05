@@ -49,11 +49,11 @@ function PriceSet() {
     <>
       <Container >
         <Row className="outer">
-          <Form style={{ width: "70%" }}>
+          <Form style={{ width: "100%" }}>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control
                 type="number"
-                size="lg"
+                size="md"
                 placeholder="Set the price per kWh for electricity day"
                 onChange={(e) => {
                     setEMeterPriceDay(e.target.value);
@@ -64,7 +64,7 @@ function PriceSet() {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control
                 type="number"
-                size="lg"
+                size="md"
                 placeholder="Set the price per kWh for electricity night"
                 onChange={(e) => {
                     setEMeterPriceNight(e.target.value);
@@ -75,7 +75,7 @@ function PriceSet() {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control
                 type="number"
-                size="lg"
+                size="md"
                 placeholder="Set the price per kWh for gas"
                 onChange={(e) => {
                     setGMeterPrice(e.target.value);

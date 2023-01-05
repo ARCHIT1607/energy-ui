@@ -44,7 +44,9 @@ function CustomNavbar() {
   };
 
   useEffect(() => {
-    getBalance();
+    if(email!=="gse@shangrila.gov.un"){
+      getBalance();
+    }
   }, [])
   
   const [mySideBar, setMySideBar] = useState("0px");

@@ -1,14 +1,21 @@
-.outer{
-    height: 400px;
-    justify-content: center;
-    align-items: center;
+.outer {
+  height: 400px;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {
-
-   .outer{
+  /* .outer {
     position: relative;
-    bottom: 12rem;
     left: 1.5rem;
-   }
+  }
+
+  .row {
+    width: 300px !important;
+  }
+
+  #bar1{
+   height: 400px!important;
+   width: 400px!important;
+  } */
 }

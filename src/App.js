@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import { useEffect } from "react";
 import PriceSet from "./components/PriceSet/PriceSet";
 import AccessAll from "./components/AccessAll/AccessAll";
+import Analytic from "./components/Analytic/Analytic";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="adminView" element={<AdminViewMeterReading />} />
           <Route exact path="priceSet" element={<PriceSet />} />
           <Route exact path="accessAll" element={<AccessAll />} />
+          <Route exact path="analytic" element={<Analytic />} />
           </Route>
         </Routes>
       </div>

@@ -60,4 +60,15 @@ p{
     padding-top: 2rem;
   }
 
+  .modal-dialog{
+    margin-top: 5rem!important;
+    width: 370px!important;
+    position: absolute;
+  }
+
+  #outer-section{
+    width: 100vw;
+    height: 1200px!important;
+  }
+
 }

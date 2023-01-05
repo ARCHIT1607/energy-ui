@@ -1,4 +1,4 @@
-#main,
+#adminMain,
 .sidebar {
   display: none;
 }
@@ -13,11 +13,12 @@
   #nav {
     display: none;
   }
-  #main {
-    padding-right: 42rem !important;
-    display: block;
-    z-index: 999999;
-    position: relative;
+  #adminMain {
+    padding: 0;
+        margin: 0;
+        height: 10px;
+        width: 100px!important;
+        display: block;
   }
   .openbtn h3 {
     width: 1rem;
@@ -61,15 +62,14 @@
   .openbtn {
     font-size: 20px;
     cursor: pointer;
-    background-color: #111;
-    color: white;
+    /* background-color: #111; */
     padding: 10px 15px;
     border: none;
   }
 
-  .openbtn:hover {
+  /* .openbtn:hover {
     background-color: #444;
-  }
+  } */
 
   #main {
     transition: margin-left 0.5s;

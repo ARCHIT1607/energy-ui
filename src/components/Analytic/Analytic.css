@@ -1,0 +1,24 @@
+#graph{
+    width:300vw;
+    height:400px;
+}
+
+#bar1{
+    height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+
+    #analyticRow{
+        height: 400px!important;
+    }
+    #graph{
+        width:200px;
+         height:500px;
+    }
+
+    #bar1{
+        width: 300px!important;
+        font-size: 5rem;
+    }
+}

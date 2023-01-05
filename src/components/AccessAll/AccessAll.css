@@ -1,6 +1,10 @@
 @media only screen and (max-width: 600px) {
+  .row{
+    width: 350px!important;
+  }
   .table {
     margin-top: 15px;
+    width: 90vw!important;
   }
   th {
     font-size: 1.3rem;
@@ -10,6 +14,6 @@
   }
 
   #outlet{
-    width: 350px;
+    width: 400px;
   }
 }

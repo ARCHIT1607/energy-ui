@@ -86,11 +86,11 @@ function AdminDashboard() {
         <h1 style={{color:"white"}}>Dashboard</h1>
         <a href="#" onClick={goPriceSet}>Meter Price</a>
         <a href="#" onClick={goAccessAll}>Access All Meter Readings</a>
-        {/* <a href="#" onClick={goAnalytic}>Graph</a> */}
+        <a href="#" onClick={goAnalytic}>Graph</a>
         <a href="#" onClick={logout}>Logout</a>
       </div>
 
-      <div id="main" style={{ marginLeft: main }}>
+      <div id="adminMain" style={{ marginLeft: main }}>
         <button className="openbtn" type="button" onClick={openNav}>
           <h3>☰</h3>
         </button>
